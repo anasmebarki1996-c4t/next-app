@@ -32,7 +32,7 @@ jobs:
           silentFailure: true
 
       - name: Checkout (frontend - master)
-        if: steps.checkout-matching-branch.outputs.failure === 'true'
+        if: steps.checkout-matching-branch.outputs.failure == 'true'
         uses: actions/checkout@v2
         with:
           ref: master
