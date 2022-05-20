@@ -37,7 +37,7 @@ jobs:
       #   ref: feature/add
 
       - run: |
-        curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.PAT_USERNAME}}/${{ env.APPLICATION_NAME }}/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": ${{steps.extract_branch.outputs.branch}}} }'
+        curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.PAT_USERNAME}}/${{ env.APPLICATION_NAME }}/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": "test"}}'
 
       # - name: Checkout (frontend - master)
       #   if: steps.checkout-matching-branch.outputs.failure == 'true'
