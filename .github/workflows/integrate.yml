@@ -51,5 +51,5 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
-            staging.angular.vercel-action.amond.dev
-            pr-{{PR_NUMBER}}.angular.vercel-action.amond.dev
+            next-app-tawny.vercel.app
+            pr-{{PR_NUMBER}}.next-app-tawny.vercel.app
