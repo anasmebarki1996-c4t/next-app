@@ -26,11 +26,14 @@ jobs:
     steps:
       - name: Checkout (frontend - matching branch)
         uses: actions/checkout@v2
-        id: checkout-matching-branch
-      #   with:
-      #     ref: feature/addddd
-      #     silentFailure: true
 
+      - run: echo '${{ steps.extract_branch.outputs.branch }}'
+
+      - name: Checkout (frontend - matching branch)
+        uses: actions/checkout@v2
+        ref: feature/add
+
+      - run: echo '${{ steps.extract_branch.outputs.branch }}'
       # - name: Checkout (frontend - master)
       #   if: steps.checkout-matching-branch.outputs.failure == 'true'
       #   uses: actions/checkout@v2
@@ -62,8 +65,11 @@ jobs:
             echo 'Branch does not exist'
           fi
 
-      - run: echo '"${{ steps.extract_branch.outputs.branch }}"'
-      - run: echo '${{ steps.extract_branch.outputs.branch }}'
+          if git show-ref -q --heads feature/add; then
+            echo 'Branch exists 2'
+          else
+            echo 'Branch does not exist 2'
+          fi
 
       # Production Deploy
       # - name: Production Deploy
