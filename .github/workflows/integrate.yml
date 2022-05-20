@@ -27,12 +27,14 @@ jobs:
       - name: Checkout (frontend - matching branch)
         uses: actions/checkout@v2
         id: checkout-matching-branch
+        with:
           ref: feature/addddd
           silentFailure: true
 
       - name: Checkout (frontend - master)
         if: steps.checkout-matching-branch.outputs.failure === 'true'
         uses: actions/checkout@v2
+        with:
           ref: master
 
       - name: Inject slug/short variables
