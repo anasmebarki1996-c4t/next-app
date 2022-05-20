@@ -1,7 +1,7 @@
 name: Pipeline Web with Test Routine and Deployment in Cloud Provider 🦾🤖🦾
 
 on:
-  push:
+  repository_dispatch:
 
 jobs:
   test-routine:
@@ -25,6 +25,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - run: 'echo "payload: test"'
 
       # - name: Inject slug/short variables
       #   uses: rlespinasse/github-slug-action@v3.x
