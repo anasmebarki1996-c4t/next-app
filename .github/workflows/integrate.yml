@@ -30,21 +30,23 @@ jobs:
         uses: rlespinasse/github-slug-action@v3.x
 
       # Production Deploy
-      - uses: amondnet/vercel-action@v20
-        id: vercel-deploy-production
-        if: github.ref == 'refs/heads/main'
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Production Deploy
+        uses: amondnet/vercel-action@v20
+          id: vercel-deploy-production
+          if: github.ref == 'refs/heads/main'
+          with:
+            vercel-token: ${{ secrets.VERCEL_TOKEN }}
+            vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
+            vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+            vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
 
       # Branching Deploy
-      - uses: amondnet/vercel-action@v20
-        id: vercel-deploy-branching
-        if: github.ref != 'refs/heads/main'
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Branching Deploy
+        uses: amondnet/vercel-action@v20
+          id: vercel-deploy-branching
+          if: github.ref != 'refs/heads/main'
+          with:
+            vercel-token: ${{ secrets.VERCEL_TOKEN }}
+            vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
+            vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+            vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
