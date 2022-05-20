@@ -3,6 +3,9 @@ name: Pipeline Web with Test Routine and Deployment in Cloud Provider 🦾🤖�
 on:
   push:
 
+env:
+  APPLICATION_NAME: nest-app
+
 jobs:
   test-routine:
     runs-on: ubuntu-latest
