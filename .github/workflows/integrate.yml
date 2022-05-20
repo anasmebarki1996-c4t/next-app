@@ -39,6 +39,22 @@ jobs:
       - run: echo '"${{ steps.extract_branch.outputs.branch }}"'
       - run: echo '${{ steps.extract_branch.outputs.branch }}'
 
+
+      - name: Check Branch Master
+        if git show-ref --quiet refs/heads/master; then
+            echo Master branch exists
+        fi
+
+      - name: Check Branch feature/add
+        if git show-ref --quiet refs/heads/feature/add; then
+            echo feature/add branch exists
+        fi
+
+        - name: Check Branch feature/addddd
+        if git show-ref --quiet refs/heads/feature/addddd; then
+            echo feature/adddddd branch exists
+        fi
+
       # Production Deploy
       - name: Production Deploy
         uses: amondnet/vercel-action@v20
