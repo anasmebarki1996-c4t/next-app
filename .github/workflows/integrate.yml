@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: feature/add
+          ref: feature/addddd
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
