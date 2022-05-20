@@ -24,9 +24,16 @@ jobs:
     needs: test-routine
 
     steps:
-      - uses: actions/checkout@v2
-        with:
+      - name: Checkout (frontend - matching branch)
+        uses: actions/checkout@v2
+        id: checkout-matching-branch
           ref: feature/addddd
+          silentFailure: true
+
+      - name: Checkout (frontend - master)
+        if: steps.checkout-matching-branch.outputs.failure === 'true'
+        uses: actions/checkout@v2
+          ref: master
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
@@ -38,25 +45,6 @@ jobs:
 
       - run: echo '"${{ steps.extract_branch.outputs.branch }}"'
       - run: echo '${{ steps.extract_branch.outputs.branch }}'
-
-      - name: Check Branch Master gggggggggggggggggggg
-        if: git show-ref --quiet refs/heads/master
-        run: echo "fgggggggggggggggggggg exists"
-
-      - name: Check Branch Master
-        run: if git show-ref --quiet refs/heads/master; then
-          echo "Master branch exists"
-          fi
-
-      - name: Check Branch feature/add
-        run: if git show-ref --quiet refs/heads/feature/add; then
-          echo "feature/add branch exists"
-          fi
-
-      - name: Check Branch featureaddddd
-        run: if git show-ref --quiet refs/heads/feature/addddd; then
-          echo "feature/adddddd branch exists"
-          fi
 
       # Production Deploy
       - name: Production Deploy
