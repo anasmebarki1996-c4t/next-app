@@ -29,6 +29,14 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - run: echo '"${{ steps.extract_branch.outputs.branch }}"'
+      - run: echo '${{ steps.extract_branch.outputs.branch }}'
+
       # Production Deploy
       - name: Production Deploy
         uses: amondnet/vercel-action@v20
