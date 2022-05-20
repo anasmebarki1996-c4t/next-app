@@ -50,6 +50,3 @@ jobs:
           vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.GITHUB_REPOSITORY_SLUG }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          alias-domains: | #Optional
-            next-app-tawny.vercel.app
-            pr-{{PR_NUMBER}}.next-app-tawny.vercel.app
