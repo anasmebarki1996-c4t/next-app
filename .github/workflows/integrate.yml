@@ -6,6 +6,7 @@ on:
 env:
   API_DOMAIN: nest-app
   FRONT_DOMAIN: anasmebarki1996-c4t.vercel.app
+  MAIN_BRANCH: main
 
 jobs:
   test-routine:
@@ -46,7 +47,7 @@ jobs:
       - name: Production Deploy
         uses: amondnet/vercel-action@v20
         id: vercel-deploy-production
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/${{ env.MAIN_BRANCH }}'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
@@ -54,12 +55,13 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
             ${{ env.FRONT_DOMAIN }}
+        run: echo "${{ env.FRONT_DOMAIN }}"
 
       # Branching Deploy
       - name: Branching Deploy
         uses: amondnet/vercel-action@v20
         id: vercel-deploy-branching
-        if: github.ref != 'refs/heads/main'
+        if: github.ref != 'refs/heads/${{ env.MAIN_BRANCH }}'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
@@ -67,15 +69,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
             ${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}
+        run: echo "https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
 
       - name: API URL
         run: echo "https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
-
-      - name: FRONT URL
-        shell: bash
-        run: |
-          if ${{ github.ref }} == 'refs/heads/main'; then
-            echo "${{ env.FRONT_DOMAIN }}"
-          else
-            echo "https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
-          fi
