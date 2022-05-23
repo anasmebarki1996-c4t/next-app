@@ -5,7 +5,7 @@ on:
 
 env:
   API_DOMAIN: nest-app
-  FRONT_DOMAIN: anasmebarki1996-c4t.vercel.app
+  FRONT_DOMAIN: next-app.vercel.app
   MAIN_BRANCH: main
 
 jobs:
@@ -75,9 +75,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
             ${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}
-
-      - name: API URL
-        run: echo "https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
 
       # Branching Deploy
       - name: Branching Deploy URLS
