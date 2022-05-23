@@ -71,7 +71,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
-            next-${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
+            ${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
 
       # Branching Deploy
       - name: Branching Deploy
@@ -84,4 +84,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
-            next-${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
+            ${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
