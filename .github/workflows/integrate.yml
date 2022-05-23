@@ -57,6 +57,13 @@ jobs:
             ${{ env.FRONT_DOMAIN }}
         run: echo "${{ env.FRONT_DOMAIN }}"
 
+      # Production Deploy
+      - name: Production Deploy URLS
+        if: github.ref == 'refs/heads/${{ env.MAIN_BRANCH }}'
+        run: |
+          echo "API URL: https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
+          echo "FRONT URL: https://${{ env.FRONT_DOMAIN }}"
+
       # Branching Deploy
       - name: Branching Deploy
         uses: amondnet/vercel-action@v20
@@ -73,3 +80,10 @@ jobs:
 
       - name: API URL
         run: echo "https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
+
+      # Branching Deploy
+      - name: Branching Deploy URLS
+        if: github.ref != 'refs/heads/${{ env.MAIN_BRANCH }}'
+        run: |
+          echo "API URL : https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
+          echo "FRONT URL :https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
