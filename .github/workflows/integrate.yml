@@ -1,4 +1,4 @@
-name: Pipeline Web with Test Routine and Deployment in Cloud Provider 🦾🤖🦾
+name: Integrate Pipeline Web with Test Routine and Deployment in Cloud Provider
 
 on:
   push:
@@ -74,7 +74,7 @@ jobs:
       - name: FRONT URL
         shell: bash
         run: |
-          if github.ref == 'refs/heads/main'; then
+          if ${{ github.ref }} == 'refs/heads/main'; then
             echo "${{ env.FRONT_DOMAIN }}"
           else
             echo "https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
