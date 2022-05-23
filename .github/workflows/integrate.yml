@@ -55,7 +55,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
             ${{ env.FRONT_DOMAIN }}
-        run: echo "${{ env.FRONT_DOMAIN }}"
 
       # Production Deploy
       - name: Production Deploy URLS
@@ -76,7 +75,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: | #Optional
             ${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}
-        run: echo "https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
 
       - name: API URL
         run: echo "https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
