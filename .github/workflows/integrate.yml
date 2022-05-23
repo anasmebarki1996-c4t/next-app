@@ -70,6 +70,8 @@ jobs:
           vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=https://nest-apk-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          alias-domains: | #Optional
+            next-${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
 
       # Branching Deploy
       - name: Branching Deploy
@@ -81,3 +83,5 @@ jobs:
           vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://nest-apk-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          alias-domains: | #Optional
+            next-${{env.GITHUB_REF_SLUG}}-anasmebarki1996-c4t.vercel.app
