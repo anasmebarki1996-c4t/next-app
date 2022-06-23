@@ -35,6 +35,18 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
+      - name: Set tag var
+        id: vars
+        run: |
+          echo ::set-output name=API_APP_NAME::${echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30}
+          echo ::set-output name=FRONT_APP_NAME::${echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30}
+
+        # Branching Deploy
+      - name: Test URLS
+        run: |
+          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME  }}.herokuapp.com"
+          echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
+
       # - name: Extract branch name
       #   shell: bash
       #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -49,14 +61,14 @@ jobs:
         id: vercel-deploy-branching
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://`echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`.herokuapp.com"
+          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ steps.vars.outputs.API_APP_NAME }}.herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           alias-domains: |
-            echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30
+            ${{ steps.vars.outputs.FRONT_APP_NAME }}
 
       # Branching Deploy
       - name: Branching Deploy URLS
         run: |
-          echo "API URL : https://${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG  }}.herokuapp.com"
-          echo "FRONT URL :https://${{ env.GITHUB_REF_SLUG }}-${{ env.FRONT_DOMAIN }}"
+          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME  }}.herokuapp.com"
+          echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
