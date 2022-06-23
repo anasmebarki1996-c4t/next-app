@@ -35,50 +35,28 @@ jobs:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
+      # - name: Extract branch name
+      #   shell: bash
+      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      #   id: extract_branch
 
-      - run: |
-          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.PAT_USERNAME}}/${{ env.API_DOMAIN }}/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": "${{steps.extract_branch.outputs.branch}}}"} }'
-
-      # Production Deploy
-      - name: Production Deploy
-        uses: amondnet/vercel-action@v20
-        id: vercel-deploy-production
-        if: github.ref == 'refs/heads/${{ env.MAIN_BRANCH }}'
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          alias-domains: | #Optional
-            ${{ env.FRONT_DOMAIN }}
-
-      # Production Deploy
-      - name: Production Deploy URLS
-        if: github.ref == 'refs/heads/${{ env.MAIN_BRANCH }}'
-        run: |
-          echo "API URL: https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
-          echo "FRONT URL: https://${{ env.FRONT_DOMAIN }}"
+      # - run: |
+      #     curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/biscott-api/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": "${{ steps.extract_branch.outputs.branch }}}", "url": "${{ env.GITHUB_REF_SLUG }}"}}'
 
       # Branching Deploy
       - name: Branching Deploy
         uses: amondnet/vercel-action@v20
         id: vercel-deploy-branching
-        if: github.ref != 'refs/heads/${{ env.MAIN_BRANCH }}'
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
+          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://"`echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`".herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          alias-domains: | #Optional
-            ${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}
+          alias-domains: |
+            "`echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`"
 
       # Branching Deploy
       - name: Branching Deploy URLS
-        if: github.ref != 'refs/heads/${{ env.MAIN_BRANCH }}'
         run: |
-          echo "API URL : https://${{ env.API_DOMAIN }}-${{ steps.extract_branch.outputs.branch }}.herokuapp.com"
-          echo "FRONT URL :https://${{env.GITHUB_REF_SLUG}}-${{ env.FRONT_DOMAIN }}"
+          echo "API URL : https://${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_SLUG  }}.herokuapp.com"
+          echo "FRONT URL :https://${{ env.GITHUB_REF_SLUG }}-${{ env.FRONT_DOMAIN }}"

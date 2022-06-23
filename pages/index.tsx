@@ -17,7 +17,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>Master Branch new</p>
+        <p className={styles.description}>Master Branch new disconnect</p>
 
         <p className={styles.description}>
           API URL
