@@ -38,8 +38,8 @@ jobs:
       - name: Set tag var
         id: vars
         run: |
-          echo ::set-output name=API_APP_NAME::${echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30}
-          echo ::set-output name=FRONT_APP_NAME::${echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30}
+          echo ::set-output name=API_APP_NAME::`echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`
+          echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`
 
         # Branching Deploy
       - name: Test URLS
