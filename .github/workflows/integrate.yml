@@ -9,24 +9,24 @@ env:
   MAIN_BRANCH: main
 
 jobs:
-  test-routine:
-    runs-on: ubuntu-latest
+  # test-routine:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x]
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
   deployment-step:
     runs-on: ubuntu-latest
-    needs: test-routine
+    # needs: test-routine
 
     steps:
       - name: Checkout (frontend - matching branch)
@@ -39,7 +39,7 @@ jobs:
         id: vars
         run: |
           echo ::set-output name=API_APP_NAME::`echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`
-          echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.FRONT_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`
+          echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.GITHUB_REF_NAME_SLUG }}-${{ env.FRONT_DOMAIN }}'`
 
         # Branching Deploy
       - name: Test URLS
