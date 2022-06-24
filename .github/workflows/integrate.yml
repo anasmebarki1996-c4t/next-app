@@ -29,39 +29,38 @@ jobs:
     # needs: test-routine
 
     steps:
-      - name: Checkout (frontend - matching branch)
-        uses: actions/checkout@v2
+      # - name: Checkout (frontend - matching branch)
+      #   uses: actions/checkout@v2
 
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+      # - name: Inject slug/short variables
+      #   uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Set tag var
-        id: vars
-        run: |
-          echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.GITHUB_REF_NAME_SLUG }}-${{ env.FRONT_DOMAIN }}'`
+      # - name: Set tag var
+      #   id: vars
+      #   run: |
+      #     echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.GITHUB_REF_NAME_SLUG }}-${{ env.FRONT_DOMAIN }}'`
 
-      # - name: Extract branch name
-      #   shell: bash
-      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      #   id: extract_branch
+      # # - name: Extract branch name
+      # #   shell: bash
+      # #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      # #   id: extract_branch
 
-      # - run: |
-      #     curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/biscott-api/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": "${{ steps.extract_branch.outputs.branch }}}", "url": "${{ env.GITHUB_REF_SLUG }}"}}'
+      - run: curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/nest-app/dispatches --data '{"event_type":"build_application","client_payload":{"branch":"${{ steps.extract_branch.outputs.branch }}}", "url":"${{ env.GITHUB_REF_SLUG }}"}}'
 
-      # Branching Deploy
-      - name: Branching Deploy
-        uses: amondnet/vercel-action@v20
-        id: vercel-deploy-branching
-        with:
-          vercel-token: "cv339XaVihlWc9D7S5s0ojQQ"
-          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=herokuapp.com/v1"
-          vercel-org-id: "team_XS84nBwfHog9694hSuWI8Ume"
-          vercel-project-id: "prj_pPEbxN5JQZAsV1aVCOPxh3KkmgnC"
-          scope: "ggggggg"
-          alias-domains: |
-            ${{ steps.vars.outputs.FRONT_APP_NAME }}
+      # # Branching Deploy
+      # - name: Branching Deploy
+      #   uses: amondnet/vercel-action@v20
+      #   id: vercel-deploy-branching
+      #   with:
+      #     vercel-token: "cv339XaVihlWc9D7S5s0ojQQ"
+      #     vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=herokuapp.com/v1"
+      #     vercel-org-id: "team_XS84nBwfHog9694hSuWI8Ume"
+      #     vercel-project-id: "prj_pPEbxN5JQZAsV1aVCOPxh3KkmgnC"
+      #     scope: "ggggggg"
+      #     alias-domains: |
+      #       ${{ steps.vars.outputs.FRONT_APP_NAME }}
 
-      # Branching Deploy
-      - name: Branching Deploy URLS
-        run: |
-          echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
+      # # Branching Deploy
+      # - name: Branching Deploy URLS
+      #   run: |
+      #     echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
