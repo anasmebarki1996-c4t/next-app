@@ -63,7 +63,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://${{ steps.vars.outputs.API_APP_NAME }}.herokuapp.com"
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-project-id: "prj_pPEbxN5JQZAsV1aVCOPxh3KkmgnC"
           alias-domains: |
             ${{ steps.vars.outputs.FRONT_APP_NAME }}
 
