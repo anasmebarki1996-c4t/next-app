@@ -45,8 +45,10 @@ jobs:
       # #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       # #   id: extract_branch
 
-      - run: curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/nest-app/dispatches --data '{"event_type":"build_application","client_payload":{"branch":"${{ steps.extract_branch.outputs.branch }}}", "url":"${{ env.GITHUB_REF_SLUG }}"}}'
+      - run: curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/nest-app/dispatches --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg"}}'
 
+      - run: echo `curl -XPOST -u "${{ secrets.GIT_USERNAME}}:${{secrets.GIT_TOKEN}}" -H "Accept:application/vnd.github.everest-preview+json" -H "Content-Type:application/json" https://api.github.com/repos/${{secrets.GIT_USERNAME}}/nest-app/dispatches --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg"}}'`
+"
       # # Branching Deploy
       # - name: Branching Deploy
       #   uses: amondnet/vercel-action@v20
