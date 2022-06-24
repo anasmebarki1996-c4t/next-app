@@ -38,14 +38,7 @@ jobs:
       - name: Set tag var
         id: vars
         run: |
-          echo ::set-output name=API_APP_NAME::`echo '${{ env.API_DOMAIN }}-${{ env.GITHUB_REF_NAME_SLUG }}' | head -c 30`
           echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.GITHUB_REF_NAME_SLUG }}-${{ env.FRONT_DOMAIN }}'`
-
-        # Branching Deploy
-      - name: Test URLS
-        run: |
-          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME }}.herokuapp.com"
-          echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
 
       # - name: Extract branch name
       #   shell: bash
@@ -61,8 +54,8 @@ jobs:
         id: vercel-deploy-branching
         with:
           vercel-token: "cv339XaVihlWc9D7S5s0ojQQ"
-
-          vercel-org-id: "W7Xp2ctxgvqN96MKAN2bpyMH"
+          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=herokuapp.com/v1"
+          vercel-org-id: "team_XS84nBwfHog9694hSuWI8Ume"
           vercel-project-id: "prj_pPEbxN5JQZAsV1aVCOPxh3KkmgnC"
           scope: "ggggggg"
           alias-domains: |
@@ -71,5 +64,4 @@ jobs:
       # Branching Deploy
       - name: Branching Deploy URLS
         run: |
-          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME  }}.herokuapp.com"
           echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
