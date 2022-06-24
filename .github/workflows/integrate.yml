@@ -44,7 +44,7 @@ jobs:
         # Branching Deploy
       - name: Test URLS
         run: |
-          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME  }}.herokuapp.com"
+          echo "API URL : https://${{ steps.vars.outputs.API_APP_NAME }}.herokuapp.com"
           echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
 
       # - name: Extract branch name
