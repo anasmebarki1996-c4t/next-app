@@ -1,83 +1,68 @@
-name: Pipeline Web with Test Routine and Deployment in Cloud Provider 🦾🤖🦾
+name: Integrate Pipeline Web with Test Routine and Deployment in Cloud Provider
 
 on:
   push:
 
 env:
-  APPLICATION_NAME: nest-app
+  API_DOMAIN: nest-app
+  FRONT_DOMAIN: next-app-tawny.vercel.app
+  MAIN_BRANCH: main
 
 jobs:
-  test-routine:
-    runs-on: ubuntu-latest
+  # test-routine:
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [12.x]
 
-    steps:
-      - uses: actions/checkout@v2
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
   deployment-step:
     runs-on: ubuntu-latest
-    needs: test-routine
+    # needs: test-routine
 
     steps:
-      - name: Checkout (frontend - matching branch)
-        uses: actions/checkout@v2
-
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       # - name: Checkout (frontend - matching branch)
       #   uses: actions/checkout@v2
-      #   ref: feature/add
 
-      - run: |
-          curl -XPOST -u "${{ secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/${{secrets.PAT_USERNAME}}/${{ env.APPLICATION_NAME }}/dispatches --data '{"event_type": "build_application", "client_payload": {"branch": "${{steps.extract_branch.outputs.branch}}}"} }'
+      # - name: Inject slug/short variables
+      #   uses: rlespinasse/github-slug-action@v3.x
 
-      - name: Get branch name
-        run: echo ${{ steps.extract_branch.outputs.branch }}
+      # - name: Set tag var
+      #   id: vars
+      #   run: |
+      #     echo ::set-output name=FRONT_APP_NAME::`echo '${{ env.GITHUB_REF_NAME_SLUG }}-${{ env.FRONT_DOMAIN }}'`
 
-      - name: Get branch ref
-        run: echo ${{ github.ref }}
+      # # - name: Extract branch name
+      # #   shell: bash
+      # #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      # #   id: extract_branch
+      # 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
+      # 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
+      # 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
+      # - run: curl -X POST -u "Authorization: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" -H "Accept:application/vnd.github.v3+json" -H "Content-Type:application/json" https://api.github.com/repos/anasmebarki1996-c4t/nest-app/dispatches --ref develop --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg"}}'
 
-      - name: Get branch GITHUB_REF_SLUG
-        run: echo ${{ env.GITHUB_REF_SLUG  }}
-
-      # - name: Checkout (frontend - master)
-      #   if: steps.checkout-matching-branch.outputs.failure == 'true'
-      #   uses: actions/checkout@v2
+      # # Branching Deploy
+      # - name: Branching Deploy
+      #   uses: amondnet/vercel-action@v20
+      #   id: vercel-deploy-branching
       #   with:
-      #     ref: master
+      #     vercel-token: "cv339XaVihlWc9D7S5s0ojQQ"
+      #     vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=herokuapp.com/v1"
+      #     vercel-org-id: "team_XS84nBwfHog9694hSuWI8Ume"
+      #     vercel-project-id: "prj_pPEbxN5JQZAsV1aVCOPxh3KkmgnC"
+      #     scope: "ggggggg"
+      #     alias-domains: |
+      #       ${{ steps.vars.outputs.FRONT_APP_NAME }}
 
-      # Production Deploy
-      - name: Production Deploy
-        uses: amondnet/vercel-action@v20
-        id: vercel-deploy-production
-        if: github.ref == 'refs/heads/main'
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--prod --build-env NEXT_PUBLIC_API_BASE_URL=https://nest-apk-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      # Branching Deploy
-      - name: Branching Deploy
-        uses: amondnet/vercel-action@v20
-        id: vercel-deploy-branching
-        if: github.ref != 'refs/heads/main'
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: "--build-env NEXT_PUBLIC_API_BASE_URL=https://nest-apk-${{ env.GITHUB_REF_SLUG }}.herokuapp.com"
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      # # Branching Deploy
+      # - name: Branching Deploy URLS
+      #   run: |
+      #     echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"

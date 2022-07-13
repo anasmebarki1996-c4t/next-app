@@ -17,13 +17,8 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>######### Main Branch #########</p>
-
         <p className={styles.description}>
-          API URL
-          <code className={styles.code}>
-            {process.env.NEXT_PUBLIC_API_BASE_URL}
-          </code>
+          Master Branch test 4565 main tttttttttt 6556665
         </p>
       </main>
 
