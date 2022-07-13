@@ -17,9 +17,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Master Branch test 4565 main tttttttttt 6556665
-        </p>
+        <p className={styles.description}>Master Branch anas</p>
       </main>
 
       <footer className={styles.footer}>
