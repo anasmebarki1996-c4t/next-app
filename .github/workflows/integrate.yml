@@ -1,7 +1,8 @@
 name: Integrate Pipeline Web with Test Routine and Deployment in Cloud Provider
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
 
 env:
   API_DOMAIN: nest-app
