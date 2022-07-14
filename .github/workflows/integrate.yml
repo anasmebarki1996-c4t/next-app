@@ -51,7 +51,7 @@ jobs:
       # #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       # #   id: extract_branch
       - name: Deployed URL
-        run: echo "API URL:https://hhhhhhhhhhhhh.herokuapp.com"
+        run: echo "API URL:https://test2.herokuapp.com"
 
       - name: Deployed URL
         run: echo "API URL:https://${{ github.event.action }}.herokuapp.com"
