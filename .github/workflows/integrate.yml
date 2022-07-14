@@ -47,7 +47,7 @@ jobs:
       # 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
       # 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
       # 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
-      # - run: curl -X POST -u "Authorization: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" -H "Accept:application/vnd.github.v3+json" -H "Content-Type:application/json" https://api.github.com/repos/anasmebarki1996-c4t/nest-app/dispatches --ref develop --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg"}}'
+      - run: curl -X POST -u "Authorization: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" -H "Accept:application/vnd.github.v3+json" -H "Content-Type:application/json" https://api.github.com/repos/anasmebarki1996-c4t/nest-app/dispatches --ref develop --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg","github_event_action":"${{ github.event.action }}"}}'
 
       # # Branching Deploy
       # - name: Branching Deploy
