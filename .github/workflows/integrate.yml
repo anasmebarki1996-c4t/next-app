@@ -25,6 +25,7 @@ jobs:
   #         node-version: ${{ matrix.node-version }}
 
   deployment-step:
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     # needs: test-routine
 
@@ -36,6 +37,9 @@ jobs:
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
+
+      - name: Deployed URL
+        run: echo "NOT CLOSED"
 
       # - name: Set tag var
       #   id: vars
@@ -74,3 +78,13 @@ jobs:
       # - name: Branching Deploy URLS
       #   run: |
       #     echo "FRONT URL :https://${{ steps.vars.outputs.FRONT_APP_NAME }}"
+
+  destroy-step:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deployed URL
+        run: echo "CLOSED"
+
+      - run: curl -X POST -u "Authorization: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" -H "Accept:application/vnd.github.v3+json" -H "Content-Type:application/json" https://api.github.com/repos/anasmebarki1996-c4t/nest-app/dispatches --ref develop --data '{"event_type":"build_application","client_payload":{"branch":"test", "url":"gggg","github_event_action":"${{ github.event.action }}"}}'
