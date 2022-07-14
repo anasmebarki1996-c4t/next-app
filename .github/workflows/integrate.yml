@@ -29,11 +29,13 @@ jobs:
     # needs: test-routine
 
     steps:
-      # - name: Checkout (frontend - matching branch)
-      #   uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      # - name: Inject slug/short variables
-      #   uses: rlespinasse/github-slug-action@v3.x
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
 
       # - name: Set tag var
       #   id: vars
@@ -44,6 +46,12 @@ jobs:
       # #   shell: bash
       # #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       # #   id: extract_branch
+      - name: Deployed URL
+        run: echo "API URL:https://hhhhhhhhhhhhh.herokuapp.com"
+
+      - name: Deployed URL
+        run: echo "API URL:https://${{ github.event.action }}.herokuapp.com"
+
 
       - name: Inject github.event.action ---------
         run: echo "API URL : ${{ github.event.action }}"
